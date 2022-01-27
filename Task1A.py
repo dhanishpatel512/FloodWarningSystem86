@@ -1,5 +1,5 @@
 # Copyright (C) 2018 Garth N. Wells
-# changed task 1A newest
+#
 # SPDX-License-Identifier: MIT
 
 from floodsystem.stationdata import build_station_list

@@ -37,9 +37,12 @@ jobs:
         run: |
           python Task1A.py
           python Task1B.py
+          python Task1D.py
+
       - name: Run Extension code
         run: |
           python plot_stations.py
+
       - name: Run Deliverable 2 code
         run: |
           python Task2A.py

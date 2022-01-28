@@ -13,7 +13,6 @@ def run():
     # (the output of floodsystem.geo.rivers_with_station is already sorted)
     rivers = rivers_with_station(stations)
     total = len(rivers)
-    print(total)
     first_rivers = rivers[:10]
     print(f'There are a total of {total} rivers with at least one station. First 10: {first_rivers}')
 

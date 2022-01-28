@@ -31,7 +31,7 @@ jobs:
         run: flake8 --statistics *.py
 
       - name: Run unit tests using pytest
-        run: pytest -v
+        run: pytest --cov
 
       - name: Run Deliverable 1 code
         run: |

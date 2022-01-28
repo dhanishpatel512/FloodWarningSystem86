@@ -17,6 +17,7 @@ def run():
     first_rivers = rivers[:10]
     print(f'There are a total of {total} rivers with at least one station. First 10: {first_rivers}')
 
+    # Print stations by selected rivers
     rivers_and_stations = stations_by_river(stations)
     for river in ['River Aire', 'River Cam', 'River Thames']:
         print(river)

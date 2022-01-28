@@ -6,6 +6,7 @@ geographical data.
 
 """
 
+from turtle import distance
 from .utils import sorted_by_key  # noqa
 from haversine import haversine
 
@@ -26,17 +27,10 @@ def stations_within_radius(stations, centre, r):
     """Returns a list of all stations (type MonitoringStation) within radius r of a geographic coordinate x."""
 
     stations_inside_radius = []
-    for station in stations:
-        # Calculate the distance using the Haversine formula
-        distance_from_centre = haversine(station.coord, centre)
+    for station, distance in stations_by_distance(stations, centre):
         # Check if distance is inside the requried radius
-        if distance_from_centre < r:
+        if  distance < r:
             stations_inside_radius.append(station)
 
     # Return the list 
     return stations_inside_radius
-
-
-
-
-

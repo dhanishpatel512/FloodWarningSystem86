@@ -3,6 +3,7 @@
 from floodsystem.geo import rivers_with_station, stations_by_distance, stations_by_river, plot_stations
 from floodsystem.station import MonitoringStation
 from floodsystem.stationdata import build_station_list
+from floodsystem.utils import sorted_by_key
 
 
 def test_distance():
@@ -22,7 +23,7 @@ def test_distance():
     assert isinstance(station_distances[0][1], float)
 
     # Test that the list is ordered by distance
-    assert station_distances[0][1] < station_distances[1][1] < station_distances[2][1] < station_distances[3][1]
+    assert sorted_by_key(station_distances, 1) == station_distances
 
 
 def test_rivers_list():

@@ -24,6 +24,19 @@ def stations_by_distance(stations, p):
     return sorted_by_key(station_distances, 1)
 
 
+def stations_within_radius(stations, centre, r):
+    """Returns a list of all stations (type MonitoringStation) within radius r of a geographic coordinate x."""
+
+    stations_inside_radius = []
+    for station, distance in stations_by_distance(stations, centre):
+        # Check if distance is inside the requried radius
+        if distance < r:
+            stations_inside_radius.append(station)
+
+    # Return the list
+    return stations_inside_radius
+
+
 def rivers_with_station(stations):
     """Returns a list containing the names of all the rivers that have at least one of the stations provided as input"""
 
@@ -88,3 +101,39 @@ def plot_stations(stations):
     )
 
     fig.show()
+
+
+def rivers_by_station_number(stations, N):
+
+    # Get a list of all rivers and create empty dict for later
+    rivers = rivers_with_station(stations)
+    rivers_and_stations = {}
+
+    # Find number of stations for each river and add the river and its number of stations stations to the dict
+    for river in rivers:
+        stations_by_this_river = []
+        for station in stations:
+            if station.river == river:
+                stations_by_this_river.append(station.name)
+        rivers_and_stations[river] = len(stations_by_this_river)
+
+    # Change the dictionary to a list of tuples
+    a = rivers_and_stations.items()
+    list_of_river_and_number = list(a)
+
+    # Order list by number of monitoring stations
+    ordered_list_of_river_and_number = sorted_by_key(list_of_river_and_number, 1)
+
+    # Reverse order to get from highest to lowest
+    ordered_list_of_river_and_number.reverse()
+
+    # Get the first N stations
+    n_greatest_number_stations = ordered_list_of_river_and_number[:N]
+
+    # Add in any stations remaining after N with same number
+    for i in range(N, len(ordered_list_of_river_and_number)):
+        if ordered_list_of_river_and_number[i][1] == ordered_list_of_river_and_number[N][1]:
+            n_greatest_number_stations.append(ordered_list_of_river_and_number[i])
+
+        # Return N list of rivers with number of monitoring stations
+        return n_greatest_number_stations

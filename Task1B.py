@@ -22,7 +22,7 @@ def run():
     print('Ten closest stations from Cambridge City Centre:')
     print(ten_closest_data)
 
-    # Print data of 10 closest stations
+    # Print data of 10 furthest stations
     ten_furthest_stations = station_distances[-10:]
     ten_furthest_data = []
     for station, distance in ten_furthest_stations:

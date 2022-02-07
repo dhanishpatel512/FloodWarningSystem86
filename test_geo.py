@@ -1,6 +1,6 @@
 """Unit test for the geo module"""
 
-from floodsystem.geo import rivers_with_station, stations_by_distance, stations_by_river, plot_stations
+from floodsystem.geo import rivers_with_station, stations_by_distance, stations_by_river
 from floodsystem.station import MonitoringStation
 from floodsystem.stationdata import build_station_list
 from floodsystem.utils import sorted_by_key
@@ -55,11 +55,3 @@ def test_stations_river():
     # Test output of stations_by_river for River Cam
     assert rivers_and_stations['River Cam'] == ['Great Chesterford', 'Weston Bampfylde', 'Cambridge Baits Bite', 'Cam',
                                                 'Cambridge Jesus Lock', 'Dernford', 'Cambridge']
-
-
-def test_plot():
-    # Build list of stations
-    stations = build_station_list()
-
-    # Plot stations
-    plot_stations(stations)

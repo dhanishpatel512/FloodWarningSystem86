@@ -1,6 +1,7 @@
 """Unit test for the geo module"""
 
-from floodsystem.geo import rivers_with_station, stations_by_distance, stations_by_river, stations_within_radius
+from floodsystem.geo import rivers_with_station, stations_by_distance, stations_by_river
+from floodsystem.geo import stations_within_radius, rivers_by_station_number
 from floodsystem.station import MonitoringStation
 from floodsystem.stationdata import build_station_list
 from floodsystem.utils import sorted_by_key
@@ -73,3 +74,17 @@ def test_stations_within_radius():
 
     assert type(stations_within_10k_names) == list
     assert type(stations_within_10k_names[0]) == str
+
+
+def test_rivers_by_station_number():
+
+    # Build list of stations
+    stations = build_station_list()
+
+    # Get list of first 9 rivers with highest stations
+    nine_rivers_with_most_stations = rivers_by_station_number(stations, 9)
+
+    assert type(nine_rivers_with_most_stations) == list
+    assert type(nine_rivers_with_most_stations[0]) == tuple
+    assert type(nine_rivers_with_most_stations[0][0]) == str
+    assert type(nine_rivers_with_most_stations[0][1]) == int

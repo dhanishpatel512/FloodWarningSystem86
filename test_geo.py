@@ -77,6 +77,7 @@ def test_stations_within_radius():
 
 
 def test_rivers_by_station_number():
+    """rivers_by_station_number"""
 
     # Build list of stations
     stations = build_station_list()

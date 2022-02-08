@@ -91,7 +91,7 @@ def inconsistent_typical_range_stations(stations):
     inconsistent_stations = []
 
     for station in stations:
-        if station.typical_range_consistent() is False:
+        if not station.typical_range_consistent():
             inconsistent_stations.append(station.name)
 
     return inconsistent_stations

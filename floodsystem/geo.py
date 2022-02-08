@@ -105,27 +105,18 @@ def plot_stations(stations):
 
 def rivers_by_station_number(stations, N):
 
-    # Get a list of all rivers and create empty dict for later
-    rivers = rivers_with_station(stations)
+    rivers_and_stations_full = stations_by_river(stations)
     rivers_and_stations = {}
 
-    # Find number of stations for each river and add the river and its number of stations stations to the dict
-    for river in rivers:
-        stations_by_this_river = []
-        for station in stations:
-            if station.river == river:
-                stations_by_this_river.append(station.name)
-        rivers_and_stations[river] = len(stations_by_this_river)
+    for river, list_of_stations in rivers_and_stations_full.items():
+        rivers_and_stations[river] = len(list_of_stations)
 
     # Change the dictionary to a list of tuples
     a = rivers_and_stations.items()
     list_of_river_and_number = list(a)
 
-    # Order list by number of monitoring stations
-    ordered_list_of_river_and_number = sorted_by_key(list_of_river_and_number, 1)
-
-    # Reverse order to get from highest to lowest
-    ordered_list_of_river_and_number.reverse()
+    # Order list by number of monitoring stations, reversed
+    ordered_list_of_river_and_number = sorted_by_key(list_of_river_and_number, 1, reverse=True)
 
     # Get the first N stations
     n_greatest_number_stations = ordered_list_of_river_and_number[:N]
@@ -134,6 +125,8 @@ def rivers_by_station_number(stations, N):
     for i in range(N, len(ordered_list_of_river_and_number)):
         if ordered_list_of_river_and_number[i][1] == ordered_list_of_river_and_number[N][1]:
             n_greatest_number_stations.append(ordered_list_of_river_and_number[i])
+        else:
+            break
 
-        # Return N list of rivers with number of monitoring stations
-        return n_greatest_number_stations
+    # Return N list of rivers with number of monitoring stations
+    return n_greatest_number_stations

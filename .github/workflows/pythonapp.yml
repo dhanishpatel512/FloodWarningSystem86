@@ -42,10 +42,6 @@ jobs:
           python Task1D.py
           python Task1E.py
 
-      - name: Run Extension code
-        run: |
-          python plot_stations.py
-
       - name: Run Deliverable 2 code
         run: |
           python Task2A.py

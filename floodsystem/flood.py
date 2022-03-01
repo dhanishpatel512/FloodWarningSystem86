@@ -12,8 +12,7 @@ def stations_level_over_threshold(stations, tol):
             if station.relative_water_level() > tol:
                 stations_level_over_thr.append((station, station.relative_water_level()))
 
-    a = sorted_by_key(stations_level_over_thr, 1, reverse=True)
-    return a
+    return sorted_by_key(stations_level_over_thr, 1, reverse=True)
 
 
 def stations_highest_rel_level(stations, N):
@@ -21,20 +20,24 @@ def stations_highest_rel_level(stations, N):
     # Create list with the stations
     stations_with_relative_level = []
     # Use previous function to get list of tuples of stations with relative water level
-    stations_with_relative_level = stations_level_over_threshold(stations, 0)
+    stations_with_relative_level = stations_level_over_threshold(stations, -20)
 
-    a = sorted_by_key(stations_with_relative_level, 1, reverse=True)
+    top_stations_withlevels = sorted_by_key(stations_with_relative_level, 1, reverse=True)[:N]
+
+    top_stations = []
+    for station, relative_level in top_stations_withlevels:
+        top_stations.append(station)
 
     # Return first N values
-    return a[:N]
+    return top_stations
 
 
 def plot_water_levels(station, dates, levels):
     """Plots the water level at different dates for a given station."""
     # Plot
     plt.plot(dates, levels)
-    line_low, = plt.plot(dates, np.full(len(dates), station.typical_range[0]), 'r--', label='Typical low level')
     line_high, = plt.plot(dates, np.full(len(dates), station.typical_range[1]), 'b--', label='Typical high level')
+    line_low, = plt.plot(dates, np.full(len(dates), station.typical_range[0]), 'r--', label='Typical low level')
 
     # Add axis labels, rotate date labels and add plot title
     plt.xlabel('Date')

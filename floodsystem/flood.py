@@ -64,7 +64,7 @@ def plot_water_level_with_fit(station, dates, levels, p):
     # Construct and plot polynomial
     poly, d0 = polyfit(dates, levels, p)
 
-    poly_line, = plt.plot(dates, poly(matplotlib.dates.date2num(dates) - d0), 'g', label=f'Polynomial of degree {p}')
+    poly_line, = plt.plot(dates, poly(matplotlib.dates.date2num(dates) - d0), 'g--', label=f'Polynomial of degree {p}')
 
     # Add axis labels, rotate date labels and add plot title
     plt.xlabel('Date')

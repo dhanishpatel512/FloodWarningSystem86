@@ -21,4 +21,8 @@ def build_test_station_list():
     stations.append(MonitoringStation('link1', 'link2', 'Ambleside Rydal Road', (54.433747, -2.965717), None,
                                       'River Caius', 'Ambleside'))
 
+    levels = [0.5, 0.3, 1, 0.67, 3, 0.932, 0.1107]
+    for i in range(len(stations)):
+        stations[i].latest_level = levels[i]
+
     return stations

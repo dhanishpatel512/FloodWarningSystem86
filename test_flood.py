@@ -1,5 +1,5 @@
 from floodsystem.flood import stations_level_over_threshold, stations_highest_rel_level, plot_water_levels
-from floodsystem.flood import plot_water_level_with_fit
+from floodsystem.flood import plot_water_level_with_fit, flood_risk_assessment
 from data_test import build_test_station_list
 from floodsystem.stationdata import build_station_list, update_water_levels
 from floodsystem.datafetcher import fetch_measure_levels
@@ -7,6 +7,7 @@ import datetime
 
 
 def test_stations_level_over_threshold():
+    '''Test stations_level_over_threshold'''
 
     # Build list of stations
     stations = build_test_station_list()
@@ -23,6 +24,7 @@ def test_stations_level_over_threshold():
 
 
 def test_stations_highest_rel_level():
+    '''Test stations_highest_rel_level'''
 
     # Build list of stations
     stations = build_test_station_list()
@@ -36,6 +38,7 @@ def test_stations_highest_rel_level():
 
 
 def test_plot_water_levels():
+    '''Test plot_water_levels'''
     stations = build_station_list()
 
     # Update latest level data for all stations
@@ -49,6 +52,7 @@ def test_plot_water_levels():
 
 
 def test_plot_water_levels_with_fit():
+    """Test plot_water_levels_with_fit"""
     stations = build_station_list()
 
     # Update latest level data for all stations
@@ -59,3 +63,18 @@ def test_plot_water_levels_with_fit():
         dt = 2
         dates, levels = fetch_measure_levels(station.measure_id, dt=datetime.timedelta(days=dt))
         plot_water_level_with_fit(station, dates, levels, 4)
+
+
+def test_flood_risk_assessment():
+    # Build list of stations
+    stations = build_station_list()
+
+    # For test purposes, to save time, 50 stations are analysed
+    fifty_stations = stations[:50]
+
+    # Update latest level data for all stations
+    update_water_levels(fifty_stations)
+
+    results = flood_risk_assessment(fifty_stations)
+    for result in results:
+        print(f'Station: {result[0]}, score: {result[1]}, risk: {result[2]}')

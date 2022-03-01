@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from .analysis import polyfit
 import matplotlib
+from .datafetcher import fetch_measure_levels
+import datetime
 
 
 def stations_level_over_threshold(stations, tol):
@@ -77,3 +79,46 @@ def plot_water_level_with_fit(station, dates, levels, p):
     plt.tight_layout()  # This makes sure plot does not cut off date labels
 
     plt.show()
+
+
+def flood_risk_assessment(stations):
+    """Classifies the stations according to risk of flooding. Returns list of tuples (name, risk level, score)"""
+    stations_and_risk = []
+    for station in stations:
+        # Get polynomial fit
+        dates, levels = fetch_measure_levels(station.measure_id, dt=datetime.timedelta(days=2))
+        if dates != [] and levels != []:
+            poly, d0 = polyfit(dates, levels, 4)
+
+            # Check if level is rising or falling (comparing now and now + 12h)
+            x = matplotlib.dates.date2num(dates[-1])
+            r = poly(x - d0 + 0.5) > 1.1 * poly(x - d0)
+            f = poly(x - d0 + 0.5) < 0.9 * poly(x - d0)
+
+            # Use rising/falling as a scaling factor on relative
+            if r:
+                scaling_factor = 1.2
+            elif f:
+                scaling_factor = 0.8
+            else:
+                scaling_factor = 1
+
+            try:
+                score = station.relative_water_level() * scaling_factor
+
+                # Classify risk
+                if score > 0.85:
+                    risk = 'Severe'
+                elif score > 0.75:
+                    risk = 'High'
+                elif score > 0.5:
+                    risk = 'Moderate'
+                else:
+                    risk = 'Low'
+
+                # Append data from this station to the list
+                stations_and_risk.append((station.name, score, risk))
+            except TypeError:
+                pass
+
+    return sorted_by_key(stations_and_risk, 1, reverse=True)
